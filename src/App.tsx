@@ -1,13 +1,18 @@
 import React from 'react'
 import './App.css'
 
-import Map from '@/components/Map'
+import OpenStreetMap from '@/components/OpenStreetMap'
+
+// ---MUI
+import Container from '@mui/material/Container'
 
 function App() {
   return (
-    <div className="App">
-      <Map />
-    </div>
+    <Container maxWidth="xl">
+      <div className="page-container">
+        <OpenStreetMap />
+      </div>
+    </Container>
   )
 }
 
