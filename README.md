@@ -4,7 +4,7 @@
 
 ```bash
 
-cp .env.example .env.local  
+cp .env.example .env
 
 npm install
 
