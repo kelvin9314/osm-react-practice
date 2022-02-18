@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import 'react-leaflet-fullscreen/dist/styles.css'
 
 import OpenStreetMap from '@/components/OpenStreetMap'
 

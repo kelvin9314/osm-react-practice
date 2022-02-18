@@ -8,8 +8,9 @@ import { searchStationByName, getStationMarkerIcon, filterIncorrectStation } fro
 
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON, useMapEvents } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
+import { FullscreenControl } from 'react-leaflet-fullscreen'
 
-const TAICHUNG_LAT_LNG: [number, number] = [24.154712, 120.664265]
+const DEFAULT_ZOOM = 8
 
 const OSM_CONFIG = {
   url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
@@ -18,8 +19,8 @@ const OSM_CONFIG = {
 }
 
 const OpenStreetMap = () => {
-  const { data: rawStations, isError, isLoading } = useStations()
-
+  const [zoomLevel, setZoomLevel] = React.useState(DEFAULT_ZOOM)
+  const { data: rawStations, isError, isLoading: isStationFetching } = useStations()
   const [selectedBikeType, setSelectedBikeType] = React.useState<'yb1' | 'yb2'>('yb1')
 
   const { stationAll, stationByBikeType } = React.useMemo(() => {
@@ -42,17 +43,20 @@ const OpenStreetMap = () => {
   }, [rawStations, selectedBikeType])
 
   // React.useEffect(() => {
+  //   console.log(isStationFetching)
   //   console.log(stationAll)
-  // }, [stationAll])
+  // }, [isStationFetching, stationAll])
 
-  React.useEffect(() => {
-    console.log(stationByBikeType)
-  }, [stationByBikeType])
+  // React.useEffect(() => {
+  //   console.log(stationByBikeType)
+  // }, [stationByBikeType])
 
   return (
     <div className="station-map-container">
-      <MapContainer className="osm" center={CENTER_OF_TAIWAN} zoom={8} minZoom={8}>
+      <MapContainer className="osm" center={CENTER_OF_TAIWAN} zoom={zoomLevel} minZoom={zoomLevel}>
         <TileLayer url={OSM_CONFIG.url} attribution={OSM_CONFIG.attribution} />
+        <FullscreenControl />
+
         <MarkerClusterGroup>
           {stationAll?.map(station => {
             const position: LatLng = [+station.lat, +station.lng]

@@ -1586,7 +1586,7 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
 
-"@react-leaflet/core@^1.0.2", "@react-leaflet/core@^1.1.1":
+"@react-leaflet/core@1.1.1", "@react-leaflet/core@^1.0.2", "@react-leaflet/core@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@react-leaflet/core/-/core-1.1.1.tgz#827fd05bb542cf874116176d8ef48d5b12163f81"
   integrity sha512-7PGLWa9MZ5x/cWy8EH2VzI4T8q5WpuHbixzCDXqixP/WyqwIrg5NDUPgYuFnB4IEIZF+6nA265mYzswFo/h1Pw==
@@ -5925,6 +5925,11 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
+leaflet.fullscreen@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/leaflet.fullscreen/-/leaflet.fullscreen-1.6.0.tgz#daad9a6e07c8bdbca8e5af7e3d50272d31b0226a"
+  integrity sha512-Mr6STMeyKSfJ1CsKFcPZOm425LOe0c/6EHh0AK93GiTvteTAMFmO/oFDNe+0p1mk4+8yeGLcYgaXTSzPveEGhA==
+
 leaflet.markercluster@^1.4.1:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/leaflet.markercluster/-/leaflet.markercluster-1.5.3.tgz#9cdb52a4eab92671832e1ef9899669e80efc4056"
@@ -7426,6 +7431,14 @@ react-is@^17.0.1, react-is@^17.0.2:
   version "17.0.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
+
+react-leaflet-fullscreen@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/react-leaflet-fullscreen/-/react-leaflet-fullscreen-2.0.2.tgz#9394443a7efc763d13c624b5955e698edddcc5da"
+  integrity sha512-W2h2iLYulwvSx5eYRpB8hamDYoaD37bTU0ahQppV/+Cwrzx8xKk1E5Kc6WCpqy5tBi4/sZQvg2zaRr5p+leXSg==
+  dependencies:
+    "@react-leaflet/core" "1.1.1"
+    leaflet.fullscreen "1.6.0"
 
 react-leaflet-markercluster@^3.0.0-rc1:
   version "3.0.0-rc1"
