@@ -1,15 +1,36 @@
+import { StationDetail } from '@/interfaces'
+
 import React from 'react'
-import useSWR from 'swr'
+// import useSWR from 'swr'
+import useSWRImmutable from 'swr/immutable'
 import apiFetcher from '@/utils/api-client'
 
-const useStations = () => {
-  const options = {
-    refreshInterval: 1000 * 60,
-    revalidateOnFocus: false,
-  }
+const options = {
+  // refreshInterval: 1000 * 60,
+  // revalidateOnFocus: false,
+}
 
-  const { data: stationYb1, error: errorYb1 } = useSWR('/json/station-yb1.json', apiFetcher, options)
-  const { data: stationYb2, error: errorYb2 } = useSWR(`/json/station-yb2.json`, apiFetcher, options)
+interface useStationReturnValues {
+  data: {
+    yb1: StationDetail[]
+    yb2: StationDetail[]
+  }
+  isLoading: boolean
+  isError: boolean
+}
+
+const useStations = (): useStationReturnValues => {
+  const {
+    data: stationYb1,
+    error: errorYb1,
+    isValidating: isValidatingYb1,
+  } = useSWRImmutable<StationDetail[]>('/json/station-yb1.json', apiFetcher)
+
+  const {
+    data: stationYb2,
+    error: errorYb2,
+    isValidating: isValidatingYb2,
+  } = useSWRImmutable<StationDetail[]>(`/json/station-yb2.json`, apiFetcher)
 
   const data = {
     yb1: stationYb1,
@@ -18,8 +39,8 @@ const useStations = () => {
 
   return {
     data,
-    isLoading: !stationYb1 && !stationYb2 && !errorYb1 && !errorYb2,
-    isError: errorYb1 | errorYb2,
+    isLoading: isValidatingYb1 || isValidatingYb2,
+    isError: errorYb1 || errorYb2,
   }
 }
 

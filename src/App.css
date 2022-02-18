@@ -10,6 +10,7 @@
   position: relative;width: 95%;margin:20px auto 0;
 } */
 
+
 .station-map-container{position: relative;width: 95%;margin:20px auto 0;}
 
 .station-map-container .osm{position: relative;width: 100%;overflow: hidden; height: 52vw;box-shadow:.3vw .4vw 0.3vw #f1f1f1;border-radius: .5rem; max-height: 650px}
@@ -34,3 +35,44 @@
 .map_point-f2e-edit {
   border: .35em #ffef00 solid;background: #fff;position: absolute;border-radius:100%;width: 5.4em;height: 5.4em;text-align: center;font-size: 1.6em;display: flex;justify-content: center;align-items: center;
 }
+
+/* NOTE: override --- start */
+/* .request-popup .leaflet-popup-content-wrapper {
+  border-radius: 0px;
+} */
+/*
+.leaflet-popup-content p {
+  margin: 0;
+  padding: 0 .25em 0 0;
+  letter-spacing: -.01em
+}
+
+.leaflet-popup-content p b {
+  margin: 0;
+  padding: 0 .25em 0 0;
+  letter-spacing: -.01em
+} */
+
+/* NOTE: override -- end */
+
+
+
+.popupCustom .leaflet-popup-content {
+  width: 245px;
+  margin:0;
+  overflow: hidden;
+  text-align: left;
+  font-size:.9em;
+  line-height: 24px;
+  color: #7F7F7F
+}
+
+.popupCustom .leaflet-popup-content p {margin: 2px;}
+
+.popupCustom .leaflet-popup-content p b{padding: 0 .25em 0 0; letter-spacing: -.01em}
+.popupCustom .leaflet-popup-content p b:before{content: ':'; display: inline-block; width: max-content; padding: 0 .1em}
+.popupCustom .leaflet-popup-content p span{display: inline-block;height: 1.3em}
+.popupCustom .leaflet-popup-content p span b{float: left;}
+.popupCustom .leaflet-popup-content p span:before{content: 'YouBike2.0';width: max-content; letter-spacing: -.01em;display: inline-block;float: left;}
+.popupCustom .leaflet-popup-content p span i{display: inline-block;width: 10px;height: 21px;float: left;}
+.popupCustom .leaflet-popup-content p span.NB_20E i:before{content: 'E'; display: inline-block; width: .5em; text-indent: .12em; font-style: normal}

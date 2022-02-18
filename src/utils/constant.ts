@@ -1,6 +1,6 @@
 export type LatLng = [number, number]
 export type AreaCode = '00' | '01' | '05' | '07' | '08' | '09' | '10' | '0A' | '12'
-export type AreaShortForm = 'taipei' | 'ntpc' | 'tycg' | 'hccg' | 'sipa' | 'miaoli' | 'taichung' | 'chiayi' | 'kcg'
+export type AreaShortForm = 'taipei' | 'ntpc' | 'tycg' | 'hccg' | 'sipa' | 'miaoli' | 'i' | 'chiayi' | 'kcg'
 type AreaMap = {
   [name in AreaShortForm]: { areaCode: AreaCode; name: string; position: LatLng }
 }
@@ -12,7 +12,7 @@ export const areaConfig: AreaMap = Object.freeze({
   hccg: { position: [24.801815, 120.971459], areaCode: '09', name: '新竹市' },
   sipa: { position: [24.78183, 121.005074], areaCode: '10', name: '新竹科學園區' },
   miaoli: { position: [24.564859, 120.81855], areaCode: '0A', name: '苗栗市' },
-  taichung: { position: [24.154712, 120.664265], areaCode: '01', name: '臺中市' },
+  i: { position: [24.154712, 120.664265], areaCode: '01', name: '臺中市' },
   chiayi: { position: [23.479783, 120.43972], areaCode: '08', name: '嘉義市' },
   kcg: { position: [22.629849, 120.343714], areaCode: '12', name: '高雄市' },
 })
