@@ -1,20 +1,12 @@
 import React from 'react'
 import './App.css'
 import 'react-leaflet-fullscreen/dist/styles.css'
+import { Routes, Route } from 'react-router-dom'
 
-import OpenStreetMap from '@/components/OpenStreetMap'
-
-// ---MUI
-import Container from '@mui/material/Container'
+import Router from '@/routes'
 
 function App() {
-  return (
-    <Container maxWidth="xl">
-      <div className="page-container">
-        <OpenStreetMap />
-      </div>
-    </Container>
-  )
+  return <Router />
 }
 
 export default App

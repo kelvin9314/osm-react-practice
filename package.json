@@ -17,6 +17,7 @@
     "react-leaflet": "^3.2.5",
     "react-leaflet-fullscreen": "^2.0.2",
     "react-leaflet-markercluster": "^3.0.0-rc1",
+    "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "swr": "^1.2.1",
     "typescript": "^4.4.2",
