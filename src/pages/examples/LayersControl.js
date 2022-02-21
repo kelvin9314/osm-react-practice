@@ -31,7 +31,7 @@ function LayersControlExample() {
             <MapContainer center={center} zoom={13}>
               <FullscreenControl />
 
-              <LayersControl position="topright">
+              <LayersControl position="topright" collapsed={false}>
                 <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
                   <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

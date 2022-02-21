@@ -33,8 +33,8 @@ const useStations = (): useStationReturnValues => {
   } = useSWRImmutable<StationDetail[]>(`/json/station-yb2.json`, apiFetcher)
 
   const data = {
-    yb1: stationYb1,
-    yb2: stationYb2,
+    yb1: isValidatingYb1 || isValidatingYb2 ? [] : stationYb1,
+    yb2: isValidatingYb1 || isValidatingYb2 ? [] : stationYb2,
   }
 
   return {
