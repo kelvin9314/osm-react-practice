@@ -1,12 +1,18 @@
-import type { LatLng } from '@/utils/constant'
+import type { LatLng, AreaShortForm, AreaConfigValue } from '@/utils/constant'
 import { StationDetail } from '@/interfaces'
 
 import React from 'react'
 import * as R from 'ramda'
 import useSWRImmutable from 'swr/immutable'
 import apiFetcher from '@/utils/api-client'
-import { areaConfig, zoomLevelConfig, CENTER_OF_TAIWAN } from '@/utils/constant'
-import { searchStationByName, getStationMarkerIcon, filterIncorrectStation } from '@/utils/station-helpers'
+import { areaConfig, CENTER_OF_TAIWAN } from '@/utils/constant'
+import {
+  searchStationByName,
+  getStationMarkerIcon,
+  filterIncorrectStation,
+  getTooltipDirection,
+  calculateTooltipOffset,
+} from '@/utils/station-helpers'
 
 import L from 'leaflet'
 import {
@@ -19,21 +25,27 @@ import {
   Tooltip,
   LayersControl,
   LayerGroup,
+  useMap,
+  Circle,
+  CircleMarker,
+  FeatureGroup,
 } from 'react-leaflet'
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { FullscreenControl } from 'react-leaflet-fullscreen'
 import { useImmer } from 'use-immer'
 import { isObject } from '@/utils/helpers'
 
-import Radio from '@mui/material/Radio'
-import RadioGroup from '@mui/material/RadioGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import FormControl from '@mui/material/FormControl'
-import FormLabel from '@mui/material/FormLabel'
-
 type BikeType = 1 | 2
 
 const DEFAULT_ZOOM = 8
+
+const ZOOM_LEVEL_MAP = Object.freeze({
+  wholeTaiwan: 8,
+  markerShow: 11,
+  cityChange: 14,
+  placeSearch: 16,
+  max: 16,
+})
 
 const OSM_CONFIG = {
   url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
@@ -53,19 +65,6 @@ function GetIcon(_iconUrl) {
   })
 }
 
-const markerclusterOptions = {
-  showCoverageOnHover: true,
-  disableClusteringAtZoom: 15,
-  spiderfyOnMaxZoom: false,
-  iconCreateFunction: cluster => {
-    return new L.DivIcon({
-      className: 'marker-cluster',
-      html: `<div><span>${cluster.getChildCount()}</span></div>`,
-      iconSize: new L.Point(40, 40),
-    })
-  },
-}
-
 type YouBikeMapProps = {
   displayType: BikeType
 }
@@ -73,7 +72,9 @@ type YouBikeMapProps = {
 const YouBikeMap = (props: YouBikeMapProps) => {
   const { displayType = 1 } = props
 
-  const [zoomLevel, setZoomLevel] = React.useState(DEFAULT_ZOOM)
+  const [map, setMap] = React.useState<L.Map>(null)
+  const [currentZoomLevel, setCurrentZoomLevel] = React.useState<number>(0)
+
   const [selectedStation, updateSelectedStation] = useImmer<CustomStation>(null)
 
   // const [stationAll, updateStationAll] = useImmer<CustomStation[]>([])
@@ -126,16 +127,28 @@ const YouBikeMap = (props: YouBikeMapProps) => {
   }, [stationYb2])
 
   // React.useEffect(() => {
-  //   console.log(zoomLevel)
-  // }, [zoomLevel])
+  //   console.log(displayStationYb1)
+  // }, [displayStationYb1])
+
+  // React.useEffect(() => {
+  //   console.log(displayStationYb2)
+  // }, [displayStationYb2])
+
+  // React.useEffect(() => {
+  //   console.log(`displayType: ${displayType}`)
+  // }, [displayType])
 
   React.useEffect(() => {
-    console.log(displayStationYb1)
-  }, [displayStationYb1])
+    console.log(`currentZoomLevel: ${currentZoomLevel}`)
+  }, [currentZoomLevel])
 
   React.useEffect(() => {
-    console.log(displayStationYb2)
-  }, [displayStationYb2])
+    if (!map) return
+
+    map.on('zoomend', function () {
+      setCurrentZoomLevel(prev => map.getZoom())
+    })
+  }, [map])
 
   const yb1MarkerComponents = React.useMemo(() => {
     return displayStationYb1?.map(station => {
@@ -153,12 +166,12 @@ const YouBikeMap = (props: YouBikeMapProps) => {
             },
           }}
         >
-          <Tooltip>
+          {/* <Tooltip>
             <span>
               {station.name_tw}
               {`(${station.address_tw})`}
             </span>
-          </Tooltip>
+          </Tooltip> */}
         </Marker>
       )
     })
@@ -181,21 +194,36 @@ const YouBikeMap = (props: YouBikeMapProps) => {
           }}
         >
           {/* <InfoWindowPopup station={station} /> */}
-          <Tooltip>
+          {/* <Tooltip>
             <span>
               {station.name_tw}
               {`(${station.address_tw})`}
             </span>
-          </Tooltip>
+          </Tooltip> */}
         </Marker>
       )
     })
   }, [displayStationYb2])
 
+  function panToWithZoomLevel(position: LatLng, zoomLevel: number = ZOOM_LEVEL_MAP.wholeTaiwan) {
+    if (!map || Object.keys(position)?.length < 2) return
+
+    // map.panTo(latlng)
+    // map.setZoom(zoomLevel)
+    map.setView(position, zoomLevel)
+  }
+
   return (
     <>
       <div className="station-map-container">
-        <MapContainer className="osm" center={CENTER_OF_TAIWAN} zoom={zoomLevel} minZoom={8} maxZoom={18}>
+        <MapContainer
+          className="osm"
+          center={CENTER_OF_TAIWAN}
+          zoom={ZOOM_LEVEL_MAP.wholeTaiwan}
+          minZoom={ZOOM_LEVEL_MAP.wholeTaiwan}
+          maxZoom={ZOOM_LEVEL_MAP.max}
+          whenCreated={setMap}
+        >
           <TileLayer url={OSM_CONFIG.url} attribution={OSM_CONFIG.attribution} />
           <FullscreenControl />
 
@@ -204,7 +232,10 @@ const YouBikeMap = (props: YouBikeMapProps) => {
           )}
 
           <LayersControl position="topright" collapsed={false}>
-            <LayersControl.Overlay name="YouBike 1.0">
+            <LayersControl.Overlay
+              name="YouBike 1.0"
+              checked={displayType === 1 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
+            >
               <LayerGroup>
                 <MarkerClusterGroup
                   showCoverageOnHover={true}
@@ -212,7 +243,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                   spiderfyOnMaxZoom={false}
                   iconCreateFunction={cluster => {
                     return new L.DivIcon({
-                      className: 'marker-cluster',
+                      className: 'marker-cluster marker-cluster-custom-yb1',
                       html: `<div><span>${cluster.getChildCount()}</span></div>`,
                       iconSize: new L.Point(40, 40),
                     })
@@ -223,7 +254,10 @@ const YouBikeMap = (props: YouBikeMapProps) => {
               </LayerGroup>
             </LayersControl.Overlay>
 
-            <LayersControl.Overlay name="YouBike 2.0">
+            <LayersControl.Overlay
+              name="YouBike 2.0"
+              checked={displayType === 2 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
+            >
               <LayerGroup>
                 <MarkerClusterGroup
                   showCoverageOnHover={true}
@@ -231,7 +265,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                   spiderfyOnMaxZoom={false}
                   iconCreateFunction={cluster => {
                     return new L.DivIcon({
-                      className: 'marker-cluster',
+                      className: 'marker-cluster marker-cluster-custom-yb2',
                       html: `<div><span>${cluster.getChildCount()}</span></div>`,
                       iconSize: new L.Point(40, 40),
                     })
@@ -241,6 +275,56 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                 </MarkerClusterGroup>
               </LayerGroup>
             </LayersControl.Overlay>
+
+            {currentZoomLevel < ZOOM_LEVEL_MAP.markerShow && (
+              <LayersControl.Overlay checked name="Layer group with circles">
+                <LayerGroup>
+                  {Object.keys(areaConfig)?.map(key => {
+                    const areaObj = areaConfig[key] as AreaConfigValue
+
+                    return (
+                      <FeatureGroup key={key}>
+                        <CircleMarker
+                          center={areaObj.position}
+                          radius={35}
+                          pathOptions={{
+                            color: '#ffef00',
+                            // opacity: 1,
+                            fillColor: '#fff',
+                          }}
+                          eventHandlers={{
+                            click: e => {
+                              panToWithZoomLevel(areaObj.position, ZOOM_LEVEL_MAP.markerShow)
+                            },
+                          }}
+                        >
+                          <Tooltip
+                            permanent={true}
+                            interactive={true}
+                            direction={getTooltipDirection(key)}
+                            offset={calculateTooltipOffset(areaObj)}
+                          >
+                            <div
+                              style={{
+                                // color: '#7F7F7F',
+                                fontWeight: 'bold',
+                                cursor: 'pointer',
+                                fontSize: '1.2em',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}
+                            >
+                              {areaObj.name} <br />
+                              {/* xxx 站 */}
+                            </div>
+                          </Tooltip>
+                        </CircleMarker>
+                      </FeatureGroup>
+                    )
+                  })}
+                </LayerGroup>
+              </LayersControl.Overlay>
+            )}
           </LayersControl>
         </MapContainer>
       </div>

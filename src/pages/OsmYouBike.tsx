@@ -16,9 +16,9 @@ type BikeType = 1 | 2
 const OsmYouBike = () => {
   const [selectedBikeType, setSelectedBikeType] = React.useState<BikeType>(1)
 
-  React.useEffect(() => {
-    console.log(`selectedBikeType: ${selectedBikeType}`)
-  }, [selectedBikeType])
+  // React.useEffect(() => {
+  //   console.log(`selectedBikeType: ${selectedBikeType}`)
+  // }, [selectedBikeType])
 
   return (
     <>
