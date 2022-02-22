@@ -16,9 +16,9 @@ type BikeType = 1 | 2
 const OsmYouBike = () => {
   const [selectedBikeType, setSelectedBikeType] = React.useState<BikeType>(1)
 
-  React.useEffect(() => {
-    console.log(`selectedBikeType: ${selectedBikeType}`)
-  }, [selectedBikeType])
+  // React.useEffect(() => {
+  //   console.log(`selectedBikeType: ${selectedBikeType}`)
+  // }, [selectedBikeType])
 
   return (
     <>
@@ -43,7 +43,7 @@ const OsmYouBike = () => {
               </RadioGroup>
             </FormControl>
           </div>
-          <YouBike displayType={selectedBikeType} />
+          <YouBike displayBikeType={selectedBikeType} />
         </div>
       </Container>
     </>

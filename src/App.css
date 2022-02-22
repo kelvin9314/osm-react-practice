@@ -33,29 +33,24 @@
 }
 
 /* NOTE: override --- start */
-/* .request-popup .leaflet-popup-content-wrapper {
-  border-radius: 0px;
-} */
-/*
-.leaflet-popup-content p {
-  margin: 0;
-  padding: 0 .25em 0 0;
-  letter-spacing: -.01em
+.leaflet-control-layers-expanded .leaflet-control-layers-list {
+  display: none;
 }
-
-.leaflet-popup-content p b {
-  margin: 0;
-  padding: 0 .25em 0 0;
-  letter-spacing: -.01em
-} */
 
 /* NOTE: override -- end */
 
 
-.marker-cluster {
+.marker-cluster-custom-yb1 {
+  background-color: rgba(255,158,21, 0.5);
+}
+.marker-cluster-custom-yb1 .div{
+  background-color: rgba(255,158,21, 1);
+}
+
+.marker-cluster-custom-yb2 {
   background-color: rgba(255,239,0, 0.5);
 }
-.marker-cluster .div{
+.marker-cluster-custom-yb2 .div{
   background-color: rgba(255,239,0, 1);
 }
 
