@@ -6,10 +6,6 @@
   margin: 0 auto;
 }
 
-/* .leaflet-container {
-  position: relative;width: 95%;margin:20px auto 0;
-} */
-
 
 .station-map-container{position: relative;width: 95%;margin:20px auto 0;}
 
@@ -56,6 +52,12 @@
 /* NOTE: override -- end */
 
 
+.marker-cluster {
+  background-color: rgba(255,239,0, 0.5);
+}
+.marker-cluster .div{
+  background-color: rgba(255,239,0, 1);
+}
 
 .popupCustom .leaflet-popup-content {
   width: 245px;
