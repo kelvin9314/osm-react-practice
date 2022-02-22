@@ -1,11 +1,11 @@
 import type { LatLng, AreaShortForm, AreaConfigValue } from '@/utils/constant'
-import { StationDetail } from '@/interfaces'
+import { StationDetail, FrontAreaDetail, StationCountResponse, AreaBikeType } from '@/interfaces'
 
 import React from 'react'
 import * as R from 'ramda'
 import useSWRImmutable from 'swr/immutable'
 import apiFetcher from '@/utils/api-client'
-import { areaConfig, CENTER_OF_TAIWAN } from '@/utils/constant'
+import { AREA_MAP, CENTER_OF_TAIWAN, AREA_NAME_BY_ID } from '@/utils/constant'
 import {
   searchStationByName,
   getStationMarkerIcon,
@@ -37,6 +37,17 @@ import { isObject } from '@/utils/helpers'
 
 type BikeType = 1 | 2
 
+interface AreaMarkerByBikeType {
+  areaCode: string
+  name: string
+  shortForm: AreaShortForm
+  position: {
+    lat: number
+    lng: number
+  }
+  stationAmount: number
+}
+
 const DEFAULT_ZOOM = 8
 
 const ZOOM_LEVEL_MAP = Object.freeze({
@@ -66,18 +77,26 @@ function GetIcon(_iconUrl) {
 }
 
 type YouBikeMapProps = {
-  displayType: BikeType
+  displayBikeType: BikeType
 }
 
 const YouBikeMap = (props: YouBikeMapProps) => {
-  const { displayType = 1 } = props
+  const { displayBikeType = 1 } = props
+
+  const { data: stationCountResponse, error: stationCountError } = useSWRImmutable<StationCountResponse>(
+    '/api/front/station/count',
+    apiFetcher
+  )
+  const { data: areaAllResponse, error: areaInfoError } = useSWRImmutable<FrontAreaDetail[]>(
+    '/json/area-all.json',
+    apiFetcher
+  )
 
   const [map, setMap] = React.useState<L.Map>(null)
   const [currentZoomLevel, setCurrentZoomLevel] = React.useState<number>(0)
 
   const [selectedStation, updateSelectedStation] = useImmer<CustomStation>(null)
 
-  // const [stationAll, updateStationAll] = useImmer<CustomStation[]>([])
   const [displayStationYb1, updateDisplayStationYb1] = useImmer<CustomStation[]>([])
   const [displayStationYb2, updateDisplayStationYb2] = useImmer<CustomStation[]>([])
 
@@ -99,7 +118,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
     const tempArr = (arr ? filterIncorrectStation(R.clone(arr)) : []) as []
 
     const processingData = s => {
-      const area = R.values(areaConfig).find(area => area.areaCode === s.area_code)
+      const area = R.values(AREA_MAP).find(area => area.areaCode === s.area_code)
       return {
         ...s,
         markerIcon: getStationMarkerIcon(s),
@@ -135,8 +154,8 @@ const YouBikeMap = (props: YouBikeMapProps) => {
   // }, [displayStationYb2])
 
   // React.useEffect(() => {
-  //   console.log(`displayType: ${displayType}`)
-  // }, [displayType])
+  //   console.log(`displayBikeType: ${displayBikeType}`)
+  // }, [displayBikeType])
 
   React.useEffect(() => {
     console.log(`currentZoomLevel: ${currentZoomLevel}`)
@@ -205,6 +224,44 @@ const YouBikeMap = (props: YouBikeMapProps) => {
     })
   }, [displayStationYb2])
 
+  // NOTE: for area(city) Circle Marker
+  const areaMarkerByBikeType: AreaMarkerByBikeType[] | [] = React.useMemo(() => {
+    if (!stationCountResponse || !areaAllResponse) return []
+
+    const { retVal: countsInfos, retMsg: countMsg } = stationCountResponse
+    if (!countsInfos || countsInfos?.length === 0) {
+      console.error(countMsg)
+      return []
+    }
+
+    if (!areaAllResponse || areaAllResponse?.length === 0) {
+      console.error('"/json/area-all.json" from API is MISSING !!')
+      return []
+    }
+
+    const definedAreaCodes = Object.keys(AREA_NAME_BY_ID) as string[]
+    const currentBikeType = displayBikeType.toString() as AreaBikeType
+    const filterAreas = (a: FrontAreaDetail) =>
+      definedAreaCodes.includes(a.area_code) && a.bike_type.includes(currentBikeType)
+
+    const processingData = (a: FrontAreaDetail): AreaMarkerByBikeType => {
+      const areaCount = countsInfos.find(c => c.area_code === a.area_code)
+      return {
+        areaCode: a.area_code,
+        name: a.area_name_tw,
+        shortForm: AREA_NAME_BY_ID[a.area_code].shortForm,
+        position: {
+          lat: displayBikeType === 1 ? Number(a.lat) : Number(a.lat2),
+          lng: displayBikeType === 2 ? Number(a.lng) : Number(a.lng2),
+        },
+        stationAmount: !areaCount ? 0 : displayBikeType === 1 ? areaCount.yb1 : areaCount.yb2,
+      }
+    }
+    const filteredAreas = R.map(processingData, R.filter(filterAreas, areaAllResponse))
+    console.log(filteredAreas)
+    return filteredAreas
+  }, [stationCountResponse, areaAllResponse, displayBikeType])
+
   function panToWithZoomLevel(position: LatLng, zoomLevel: number = ZOOM_LEVEL_MAP.wholeTaiwan) {
     if (!map || Object.keys(position)?.length < 2) return
 
@@ -234,7 +291,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
           <LayersControl position="topright" collapsed={false}>
             <LayersControl.Overlay
               name="YouBike 1.0"
-              checked={displayType === 1 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
+              checked={displayBikeType === 1 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
             >
               <LayerGroup>
                 <MarkerClusterGroup
@@ -256,7 +313,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
 
             <LayersControl.Overlay
               name="YouBike 2.0"
-              checked={displayType === 2 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
+              checked={displayBikeType === 2 && currentZoomLevel >= ZOOM_LEVEL_MAP.markerShow}
             >
               <LayerGroup>
                 <MarkerClusterGroup
@@ -279,11 +336,11 @@ const YouBikeMap = (props: YouBikeMapProps) => {
             {currentZoomLevel < ZOOM_LEVEL_MAP.markerShow && (
               <LayersControl.Overlay checked name="Layer group with circles">
                 <LayerGroup>
-                  {Object.keys(areaConfig)?.map(key => {
-                    const areaObj = areaConfig[key] as AreaConfigValue
+                  {areaMarkerByBikeType?.map(areaObj => {
+                    // const areaObj = AREA_MAP[key] as AreaConfigValue
 
                     return (
-                      <FeatureGroup key={key}>
+                      <FeatureGroup key={areaObj.areaCode}>
                         <CircleMarker
                           center={areaObj.position}
                           radius={35}
@@ -301,7 +358,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                           <Tooltip
                             permanent={true}
                             interactive={true}
-                            direction={getTooltipDirection(key)}
+                            direction={getTooltipDirection(areaObj.shortForm)}
                             offset={calculateTooltipOffset(areaObj)}
                           >
                             <div
@@ -315,7 +372,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                               }}
                             >
                               {areaObj.name} <br />
-                              {/* xxx 站 */}
+                              {areaObj.stationAmount} 站
                             </div>
                           </Tooltip>
                         </CircleMarker>

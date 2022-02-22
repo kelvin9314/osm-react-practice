@@ -1,7 +1,7 @@
-import type { LatLng, AreaShortForm, AreaConfigValue } from '@/utils/constant'
+import type { LatLng, AreaShortForm } from '@/utils/constant'
 import L from 'leaflet'
 
-import { areaConfig, CENTER_OF_TAIWAN } from '@/utils/constant'
+import { AREA_MAP, CENTER_OF_TAIWAN } from '@/utils/constant'
 
 export const searchStationByName = (stations = [], queryString = '') => {
   queryString = queryString.trim()
@@ -29,15 +29,15 @@ export const filterIncorrectStation = arr => {
   return arr
 }
 
-export function getTooltipDirection(areaKey): L.Direction {
-  if (!areaKey) return 'auto'
+export function getTooltipDirection(shortForm: AreaShortForm): L.Direction {
+  if (!shortForm) return 'auto'
 
   const hashMap: {
     [name in AreaShortForm]: L.Direction
   } = {
     taipei: 'right',
     ntpc: 'top',
-    tycg: 'left',
+    tycg: 'top',
     hccg: 'left',
     sipa: 'right',
     miaoli: 'left',
@@ -46,7 +46,7 @@ export function getTooltipDirection(areaKey): L.Direction {
     kcg: 'left',
   }
 
-  return hashMap[areaKey] || 'auto'
+  return hashMap[shortForm] || 'auto'
 }
 
 export function calculateTooltipOffset(areaObj): L.PointExpression {
@@ -67,24 +67,24 @@ export function calculateTooltipOffset(areaObj): L.PointExpression {
     goRight: [30, 0],
     goRightBottom: [30, 30],
     goBottom: [0, 30],
-    goLeftBottom: [-30, 0],
+    goLeftBottom: [-30, 30],
     goLeft: [-30, 0],
     goLeftTop: [-30, -30],
   }
 
-  if (areaObj.areaCode === areaConfig.taipei.areaCode) return offsetSolution.goRight
-  if (areaObj.areaCode === areaConfig.ntpc.areaCode) return offsetSolution.goTop
+  if (areaObj.areaCode === AREA_MAP.taipei.areaCode) return offsetSolution.goRight
+  if (areaObj.areaCode === AREA_MAP.ntpc.areaCode) return offsetSolution.goTop
 
-  if (areaObj.areaCode === areaConfig.tycg.areaCode) return offsetSolution.goLeftTop
+  if (areaObj.areaCode === AREA_MAP.tycg.areaCode) return offsetSolution.goLeftTop
 
-  if (areaObj.areaCode === areaConfig.hccg.areaCode) return offsetSolution.goLeft
-  if (areaObj.areaCode === areaConfig.sipa.areaCode) return offsetSolution.goRightBottom
+  if (areaObj.areaCode === AREA_MAP.hccg.areaCode) return offsetSolution.goLeftTop
+  if (areaObj.areaCode === AREA_MAP.sipa.areaCode) return offsetSolution.goRightBottom
 
-  if (areaObj.areaCode === areaConfig.miaoli.areaCode) return offsetSolution.goLeft
-  if (areaObj.areaCode === areaConfig.i.areaCode) return offsetSolution.goLeft
-  if (areaObj.areaCode === areaConfig.chiayi.areaCode) return offsetSolution.goLeft
+  if (areaObj.areaCode === AREA_MAP.miaoli.areaCode) return offsetSolution.goLeft
+  if (areaObj.areaCode === AREA_MAP.i.areaCode) return offsetSolution.goLeft
+  if (areaObj.areaCode === AREA_MAP.chiayi.areaCode) return offsetSolution.goLeft
 
-  if (areaObj.areaCode === areaConfig.kcg.areaCode) return offsetSolution.goLeft
+  if (areaObj.areaCode === AREA_MAP.kcg.areaCode) return offsetSolution.goLeft
 
   return [0, 0]
 }

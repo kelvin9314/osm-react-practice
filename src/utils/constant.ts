@@ -1,4 +1,5 @@
 import L from 'leaflet'
+import * as R from 'ramda'
 
 export type LatLng = { lat: number; lng: number }
 export type AreaCode = '00' | '01' | '05' | '07' | '08' | '09' | '10' | '0A' | '12'
@@ -8,14 +9,13 @@ export interface AreaConfigValue {
   areaCode: AreaCode
   name: string
   position: LatLng
-  // tooltipDirection?: string
 }
 
 type AreaMap = {
   [name in AreaShortForm]: AreaConfigValue
 }
 
-export const areaConfig: AreaMap = Object.freeze({
+export const AREA_MAP: AreaMap = Object.freeze({
   taipei: { position: { lat: 25.047924, lng: 121.517081 }, areaCode: '00', name: '臺北市' },
   ntpc: { position: { lat: 25.021539, lng: 121.456809 }, areaCode: '05', name: '新北市' },
   tycg: { position: { lat: 24.95367, lng: 121.225783 }, areaCode: '07', name: '桃園市' },
@@ -26,6 +26,28 @@ export const areaConfig: AreaMap = Object.freeze({
   chiayi: { position: { lat: 23.479783, lng: 120.43972 }, areaCode: '08', name: '嘉義市' },
   kcg: { position: { lat: 22.629849, lng: 120.343714 }, areaCode: '12', name: '高雄市' },
 })
+
+type AreaMapById = {
+  [name: string]: {
+    name: string
+    shortForm: AreaShortForm
+  }
+}
+
+export const AREA_NAME_BY_ID = R.mergeAll(
+  Object.keys(AREA_MAP).map(key => {
+    const keyName = key as AreaShortForm
+    const obj: AreaMapById = {}
+
+    const id = AREA_MAP[keyName].areaCode.toString()
+
+    obj[id] = {
+      name: AREA_MAP[keyName].name,
+      shortForm: keyName,
+    }
+    return obj
+  })
+)
 
 // export const zoomLevelConfig = Object.freeze({
 //   wholeTaiwan: 8,

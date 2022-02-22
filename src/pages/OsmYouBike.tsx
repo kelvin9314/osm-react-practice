@@ -43,7 +43,7 @@ const OsmYouBike = () => {
               </RadioGroup>
             </FormControl>
           </div>
-          <YouBike displayType={selectedBikeType} />
+          <YouBike displayBikeType={selectedBikeType} />
         </div>
       </Container>
     </>
