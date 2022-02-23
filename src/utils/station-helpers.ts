@@ -41,9 +41,9 @@ export function getTooltipDirection(shortForm: AreaShortForm): L.Direction {
     hccg: 'left',
     sipa: 'right',
     miaoli: 'left',
-    i: 'left',
+    i: 'right',
     chiayi: 'left',
-    kcg: 'left',
+    kcg: 'top',
   }
 
   return hashMap[shortForm] || 'auto'
@@ -62,29 +62,29 @@ export function calculateTooltipOffset(areaObj): L.PointExpression {
     goLeft: L.PointExpression
     goLeftTop: L.PointExpression
   } = {
-    goTop: [0, -30],
-    goRightTop: [30, -30],
-    goRight: [30, 0],
-    goRightBottom: [30, 30],
-    goBottom: [0, 30],
-    goLeftBottom: [-30, 30],
-    goLeft: [-30, 0],
-    goLeftTop: [-30, -30],
+    goTop: [0, -10],
+    goRightTop: [10, -10],
+    goRight: [10, 0],
+    goRightBottom: [10, 10],
+    goBottom: [0, 10],
+    goLeftBottom: [-10, 10],
+    goLeft: [-10, 0],
+    goLeftTop: [-10, -10],
   }
 
-  if (areaObj.areaCode === AREA_MAP.taipei.areaCode) return offsetSolution.goRight
+  if (areaObj.areaCode === AREA_MAP.taipei.areaCode) return offsetSolution.goBottom
   if (areaObj.areaCode === AREA_MAP.ntpc.areaCode) return offsetSolution.goTop
 
-  if (areaObj.areaCode === AREA_MAP.tycg.areaCode) return offsetSolution.goLeftTop
+  if (areaObj.areaCode === AREA_MAP.tycg.areaCode) return [-30, 0]
 
-  if (areaObj.areaCode === AREA_MAP.hccg.areaCode) return offsetSolution.goLeftTop
+  if (areaObj.areaCode === AREA_MAP.hccg.areaCode) return [20, 0]
   if (areaObj.areaCode === AREA_MAP.sipa.areaCode) return offsetSolution.goRightBottom
 
-  if (areaObj.areaCode === AREA_MAP.miaoli.areaCode) return offsetSolution.goLeft
-  if (areaObj.areaCode === AREA_MAP.i.areaCode) return offsetSolution.goLeft
+  if (areaObj.areaCode === AREA_MAP.miaoli.areaCode) return offsetSolution.goLeftBottom
+  // if (areaObj.areaCode === AREA_MAP.i.areaCode) return offsetSolution.goLeft
   if (areaObj.areaCode === AREA_MAP.chiayi.areaCode) return offsetSolution.goLeft
 
-  if (areaObj.areaCode === AREA_MAP.kcg.areaCode) return offsetSolution.goLeft
+  // if (areaObj.areaCode === AREA_MAP.kcg.areaCode) return offsetSolution.goLeft
 
   return [0, 0]
 }

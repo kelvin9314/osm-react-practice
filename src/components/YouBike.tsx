@@ -1,11 +1,21 @@
+/* eslint-disable camelcase */
 import type { LatLng, AreaShortForm, AreaConfigValue } from '@/utils/constant'
-import { StationDetail, FrontAreaDetail, StationCountResponse, AreaBikeType } from '@/interfaces'
+import {
+  StationDetail,
+  FrontAreaDetail,
+  StationCountResponse,
+  AreaBikeType,
+  StationYb2BikeListResponse,
+  Yb2eBikeInfo,
+} from '@/interfaces'
 
 import React from 'react'
 import * as R from 'ramda'
+import clsx from 'clsx'
 import useSWRImmutable from 'swr/immutable'
 import apiFetcher from '@/utils/api-client'
 import { AREA_MAP, CENTER_OF_TAIWAN, AREA_NAME_BY_ID } from '@/utils/constant'
+import { queryParamsBuilder, isObject } from '@/utils/helpers'
 import {
   searchStationByName,
   getStationMarkerIcon,
@@ -33,7 +43,6 @@ import {
 import MarkerClusterGroup from 'react-leaflet-markercluster'
 import { FullscreenControl } from 'react-leaflet-fullscreen'
 import { useImmer } from 'use-immer'
-import { isObject } from '@/utils/helpers'
 
 type BikeType = 1 | 2
 
@@ -158,7 +167,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
   // }, [displayBikeType])
 
   React.useEffect(() => {
-    console.log(`currentZoomLevel: ${currentZoomLevel}`)
+    if (process.env.NODE_ENV === 'development') console.log(`currentZoomLevel: ${currentZoomLevel}`)
   }, [currentZoomLevel])
 
   React.useEffect(() => {
@@ -180,17 +189,13 @@ const YouBikeMap = (props: YouBikeMapProps) => {
           icon={GetIcon(station.markerIcon)}
           eventHandlers={{
             click: e => {
-              console.log(station)
+              if (selectedStation && selectedStation?.station_no === station.station_no) return
+
               updateSelectedStation(draft => station)
             },
           }}
         >
-          {/* <Tooltip>
-            <span>
-              {station.name_tw}
-              {`(${station.address_tw})`}
-            </span>
-          </Tooltip> */}
+          {/* <InfoWindowPopup station={station} /> */}
         </Marker>
       )
     })
@@ -207,18 +212,13 @@ const YouBikeMap = (props: YouBikeMapProps) => {
           icon={GetIcon(station.markerIcon)}
           eventHandlers={{
             click: e => {
-              console.log(station)
+              if (selectedStation && selectedStation?.station_no === station.station_no) return
+
               updateSelectedStation(draft => station)
             },
           }}
         >
           {/* <InfoWindowPopup station={station} /> */}
-          {/* <Tooltip>
-            <span>
-              {station.name_tw}
-              {`(${station.address_tw})`}
-            </span>
-          </Tooltip> */}
         </Marker>
       )
     })
@@ -258,16 +258,13 @@ const YouBikeMap = (props: YouBikeMapProps) => {
       }
     }
     const filteredAreas = R.map(processingData, R.filter(filterAreas, areaAllResponse))
-    console.log(filteredAreas)
     return filteredAreas
   }, [stationCountResponse, areaAllResponse, displayBikeType])
 
   function panToWithZoomLevel(position: LatLng, zoomLevel: number = ZOOM_LEVEL_MAP.wholeTaiwan) {
     if (!map || Object.keys(position)?.length < 2) return
 
-    // map.panTo(latlng)
-    // map.setZoom(zoomLevel)
-    map.setView(position, zoomLevel)
+    map.setView(position, zoomLevel, { animate: true })
   }
 
   return (
@@ -343,34 +340,27 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                       <FeatureGroup key={areaObj.areaCode}>
                         <CircleMarker
                           center={areaObj.position}
-                          radius={35}
+                          radius={10}
                           pathOptions={{
-                            color: '#ffef00',
+                            color: 'transparent',
                             // opacity: 1,
-                            fillColor: '#fff',
+                            // fillColor: '#ffef00',
+                            // fillOpacity: 1,
                           }}
                           eventHandlers={{
                             click: e => {
-                              panToWithZoomLevel(areaObj.position, ZOOM_LEVEL_MAP.markerShow)
+                              panToWithZoomLevel(areaObj.position, ZOOM_LEVEL_MAP.cityChange)
                             },
                           }}
                         >
                           <Tooltip
+                            className="map-point-f2e-edit-osm"
                             permanent={true}
                             interactive={true}
                             direction={getTooltipDirection(areaObj.shortForm)}
                             offset={calculateTooltipOffset(areaObj)}
                           >
-                            <div
-                              style={{
-                                // color: '#7F7F7F',
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
-                                fontSize: '1.2em',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                              }}
-                            >
+                            <div className="area-text">
                               {areaObj.name} <br />
                               {areaObj.stationAmount} 站
                             </div>
@@ -399,20 +389,116 @@ type InfoWindowPopupProps = {
 const InfoWindowPopup = (props: InfoWindowPopupProps) => {
   const { station = null, onCloseFn = undefined } = props
 
-  const position = { lat: +station.lat, lng: +station.lng }
+  const [isBikeListShow, setIsBikeListShow] = React.useState(false)
+
+  const {
+    data: yb2eResponse,
+    error: yb2eResponseErrors,
+    isValidating,
+  } = useSWRImmutable<StationYb2BikeListResponse>(
+    station?.type === 2 ? `/api/front/bike/lists${queryParamsBuilder({ station_no: station.station_no })}` : null,
+    apiFetcher,
+    {}
+  )
+
+  // React.useEffect(() => {
+  //   console.log(station)
+  // }, [station])
+
+  // React.useEffect(() => {
+  //   console.log(yb2eResponse)
+  // }, [yb2eResponse])
+
+  const renderAmountByType = (stationObj: StationDetail) => {
+    const { type, available_spaces, empty_spaces, available_spaces_detail } = stationObj
+
+    if (type === 2 && !isValidating) {
+      const yb2eBikeList = yb2eResponse?.retCode ? yb2eResponse.retVal : []
+
+      const yb2eBikeAmount = yb2eBikeList.length
+
+      return (
+        <>
+          <span className="bycNB_title"> 可借車輛： </span>
+          <p>
+            <span className="NB_20"> : {available_spaces_detail.yb2} 輛</span>
+          </p>
+          <p>
+            <span className="NB_20E"> : {available_spaces_detail.eyb} 輛</span>
+            {yb2eBikeList?.length > 0 && (
+              <button
+                className={clsx('EYB_button', { clicked: isBikeListShow })}
+                onClick={() => {
+                  setIsBikeListShow(prev => !prev)
+                }}
+              ></button>
+            )}
+          </p>
+          {isBikeListShow && (
+            <ul
+              id="EYB-list"
+              className={clsx('inner_eyb', {
+                less1: yb2eBikeAmount === 1,
+                less2: yb2eBikeAmount === 2,
+                less3: yb2eBikeAmount === 3,
+                clicked: isBikeListShow,
+              })}
+            >
+              {yb2eBikeList
+                ?.sort((a, b) => b.battery_power - a.battery_power)
+                ?.map(bike => {
+                  const { battery_power, bike_no } = bike
+                  return (
+                    <li key={bike_no}>
+                      {bike_no}
+                      <i
+                        className={clsx({
+                          full: battery_power > 75,
+                          Two_thirds: battery_power > 50 && battery_power <= 75,
+                          One_third: battery_power > 25 && battery_power <= 50,
+                          zero: battery_power <= 25,
+                        })}
+                      >
+                        {battery_power}%
+                      </i>
+                    </li>
+                  )
+                })}
+            </ul>
+          )}
+          <p>可停空位: {stationObj.empty_spaces} 輛</p>
+        </>
+      )
+    }
+
+    return (
+      <>
+        可借車輛: {available_spaces} <br />
+        可停空位: {empty_spaces} <br />
+      </>
+    )
+  }
 
   if (!isObject(station)) return null
 
   return (
     <Popup
       className="popupCustom"
-      position={position}
+      position={{ lat: +station.lat, lng: +station.lng }}
       onClose={() => {
         if (onCloseFn) onCloseFn()
       }}
     >
       <p>租賃站點查詢 :{station?.name_tw || ''}</p>
       <p>站點位置 : {station?.address_tw || ''}</p>
+      {station.status === 2 || (station.empty_spaces === 0 && station.available_spaces === 0) ? (
+        <>
+          場站狀態: 暫停營運 <br />{' '}
+        </>
+      ) : (
+        renderAmountByType(station)
+      )}
+      <span>時間 : {station.updated_at} </span>
     </Popup>
   )
 }

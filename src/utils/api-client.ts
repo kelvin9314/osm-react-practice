@@ -21,7 +21,7 @@ export default async function apiClient<T>(
   body?: {} | string | null,
   customConfig?: Config
 ): Promise<T> {
-  const apiDomain = process.env.REACT_APP_API_URL
+  const apiDomain = process.env.REACT_APP_API_URL || 'https://apis.youbike.com.tw'
   let url = `${apiDomain}${endpoint}`
 
   const headers: Headers = {
