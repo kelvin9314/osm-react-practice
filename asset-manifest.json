@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/osm-react-practice/static/css/main.163d6652.css",
-    "main.js": "/osm-react-practice/static/js/main.4ee879a8.js",
+    "main.js": "/osm-react-practice/static/js/main.f7e67809.js",
     "static/js/787.2535ff6d.chunk.js": "/osm-react-practice/static/js/787.2535ff6d.chunk.js",
     "static/media/close_eybinner.svg": "/osm-react-practice/static/media/close_eybinner.ed13e2b08fed6bb8db21.svg",
     "static/media/open_eybinner.svg": "/osm-react-practice/static/media/open_eybinner.54a68f5a39481c75daaa.svg",
@@ -12,11 +12,11 @@
     "static/media/50Bettery.svg": "/osm-react-practice/static/media/50Bettery.18342475d9bb43637087.svg",
     "static/media/25Bettery.svg": "/osm-react-practice/static/media/25Bettery.f8a17566f1531147187c.svg",
     "main.163d6652.css.map": "/osm-react-practice/static/css/main.163d6652.css.map",
-    "main.4ee879a8.js.map": "/osm-react-practice/static/js/main.4ee879a8.js.map",
+    "main.f7e67809.js.map": "/osm-react-practice/static/js/main.f7e67809.js.map",
     "787.2535ff6d.chunk.js.map": "/osm-react-practice/static/js/787.2535ff6d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.163d6652.css",
-    "static/js/main.4ee879a8.js"
+    "static/js/main.f7e67809.js"
   ]
 }
