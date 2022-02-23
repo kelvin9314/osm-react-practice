@@ -83,6 +83,19 @@ export interface FrontAreaDetail {
   updated_at: string
 }
 
+// NOTE: api/front/bike/lists
+export interface StationYb2BikeListResponse extends ResponseStructure {
+  retVal: Yb2eBikeInfo[] | []
+}
+
+export interface Yb2eBikeInfo {
+  station_no: string
+  bike_no: string
+  pillar_no: string
+  battery_power: number
+  modify_time: number
+}
+
 export type AreaBikeType = '1' | '2' | '3'
 
 interface AreaRegisterCard {

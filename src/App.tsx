@@ -1,5 +1,6 @@
 import React from 'react'
-import './App.css'
+// import './App.css'
+import '@/asset/styles/App.css'
 import 'react-leaflet-fullscreen/dist/styles.css'
 import { Routes, Route } from 'react-router-dom'
 

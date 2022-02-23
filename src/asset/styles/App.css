@@ -71,7 +71,8 @@
   text-align: left;
   font-size:.9em;
   line-height: 24px;
-  color: #7F7F7F
+  color: #7F7F7F;
+  font-weight: 600;
 }
 
 .popupCustom .leaflet-popup-content p {margin: 2px;}
@@ -83,3 +84,72 @@
 .popupCustom .leaflet-popup-content p span:before{content: 'YouBike2.0';width: max-content; letter-spacing: -.01em;display: inline-block;float: left;}
 .popupCustom .leaflet-popup-content p span i{display: inline-block;width: 10px;height: 21px;float: left;}
 .popupCustom .leaflet-popup-content p span.NB_20E i:before{content: 'E'; display: inline-block; width: .5em; text-indent: .12em; font-style: normal}
+
+
+/* ----- */
+.EYB_button{
+  background:#565656;
+  border-radius: .5rem;
+  border: none;
+  display: inline-block;
+  width: 40px;
+  height: 17px;
+  padding: 1px 0;
+  margin:0 5px;
+}
+.EYB_button:after{
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 12px;
+  background: url("../images/open_eybinner.svg") no-repeat center center;
+  background-size: 100%;
+}
+.EYB_button.clicked:after{
+  background: url("../images/close_eybinner.svg") no-repeat center center;
+  background-size: 100%
+}
+.EYB_button:hover{
+  background:#565656;
+}
+.inner_eyb{
+  background-color:#f7f7f7;
+  font-size: .9em;
+  width: 96%;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  overflow: scroll;
+  overflow-x: hidden;
+  -webkit-transition: opacity 1s ease-in-out;
+   -moz-transition: opacity 1s ease-in-out;
+      transition: opacity 1s ease-in-out;
+-webkit-transition: height 500ms ease-in-out;
+   -moz-transition: height 500ms ease-in-out;
+        transition: height 500ms ease-in-out;
+}
+.inner_eyb.clicked{
+  height: 100px;
+  -webkit-transition: opacity 1s ease-in-out;
+   -moz-transition: opacity 1s ease-in-out;
+      transition: opacity 1s ease-in-out;
+-webkit-transition: height 500ms ease-in-out;
+   -moz-transition: height 500ms ease-in-out;
+        transition: height 500ms ease-in-out;
+}
+.inner_eyb.less1.clicked{
+height: 26px
+}
+.inner_eyb.less2.clicked{
+height: 54px
+}
+.inner_eyb.less3.clicked{
+height: 80px
+}
+.inner_eyb li{padding: .2em;float: left; width: 100%; border-bottom: solid .1em #dedede; line-height: 2em; font-size: 100%}
+.inner_eyb li:before{content: '';float: left; display: inline-block; width: 20px; height: 22px; background:url("../images/grey_byc2.0E.svg") no-repeat center center; background-size: 100%}
+.inner_eyb li i{display: inline-block; width: 60px; height: 20px; margin: 0 .5em; padding: 0 0 0 26px; letter-spacing: -.1em; color: #565656; font-style: normal}
+.inner_eyb li i.full{background:url("../images/fullBettery.svg") no-repeat 4px center; background-size: 20px}
+.inner_eyb li i.Two_thirds{background:url("../images/75Bettery.svg") no-repeat 4px center; background-size: 20px}
+.inner_eyb li i.One_third{background:url("../images/50Bettery.svg") no-repeat 4px center; background-size: 20px}
+.inner_eyb li i.zero{background:url("../images/25Bettery.svg") no-repeat 4px center; background-size: 20px}
