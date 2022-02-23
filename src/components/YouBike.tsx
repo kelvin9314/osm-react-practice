@@ -265,9 +265,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
   function panToWithZoomLevel(position: LatLng, zoomLevel: number = ZOOM_LEVEL_MAP.wholeTaiwan) {
     if (!map || Object.keys(position)?.length < 2) return
 
-    // map.panTo(latlng)
-    // map.setZoom(zoomLevel)
-    map.setView(position, zoomLevel)
+    map.setView(position, zoomLevel, { animate: true })
   }
 
   return (
@@ -343,34 +341,27 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                       <FeatureGroup key={areaObj.areaCode}>
                         <CircleMarker
                           center={areaObj.position}
-                          radius={35}
+                          radius={10}
                           pathOptions={{
-                            color: '#ffef00',
+                            color: 'transparent',
                             // opacity: 1,
-                            fillColor: '#fff',
+                            // fillColor: '#ffef00',
+                            // fillOpacity: 1,
                           }}
                           eventHandlers={{
                             click: e => {
-                              panToWithZoomLevel(areaObj.position, ZOOM_LEVEL_MAP.markerShow)
+                              panToWithZoomLevel(areaObj.position, ZOOM_LEVEL_MAP.cityChange)
                             },
                           }}
                         >
                           <Tooltip
+                            className="map-point-f2e-edit-osm"
                             permanent={true}
                             interactive={true}
                             direction={getTooltipDirection(areaObj.shortForm)}
                             offset={calculateTooltipOffset(areaObj)}
                           >
-                            <div
-                              style={{
-                                // color: '#7F7F7F',
-                                fontWeight: 'bold',
-                                cursor: 'pointer',
-                                fontSize: '1.2em',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                              }}
-                            >
+                            <div className="area-text">
                               {areaObj.name} <br />
                               {areaObj.stationAmount} 站
                             </div>

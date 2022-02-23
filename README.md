@@ -1,4 +1,4 @@
-# Some function practice about usingOpenStreetMap on React.js
+# Some function practice about using OpenStreetMap on React.js
 
 
 

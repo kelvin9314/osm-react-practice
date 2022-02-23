@@ -13,23 +13,29 @@
 .station-map-container .osm iframe{height: 100%; width: 100%}
 .station-map-container .osm img{max-height: 100%;max-width: 100%;width: 100%;}
 
-.map_point {
-  padding: .4em .2em .6em;
-  border: .35em #fdf8a6 solid;
-  background: #ffef00;
+.map-point-f2e-edit-osm {
+  padding: .6em .2em .2em;
+  border: .35em #ffef00 solid;
+  background: #fff;
   position: absolute;
   border-radius: 100%;
   width: 5.4em;
   height: 5.2em;
   text-align: center;
-  font-size: .8em;
-  font-weight: 600;
   cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  color: #333;
+  white-space: normal;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-
-.map_point-f2e-edit {
-  border: .35em #ffef00 solid;background: #fff;position: absolute;border-radius:100%;width: 5.4em;height: 5.4em;text-align: center;font-size: 1.6em;display: flex;justify-content: center;align-items: center;
+.map-point-f2e-edit-osm .area-text {
+  font-weight: 600;
+  font-size:  1.3em;
+  line-height: 1.2em;
 }
 
 /* NOTE: override --- start */
@@ -37,18 +43,22 @@
   display: none;
 }
 
+.leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before {
+  border: 0;
+}
+
 /* NOTE: override -- end */
 
 
 .marker-cluster-custom-yb1 {
-  background-color: rgba(255,158,21, 0.5);
+  background-color: rgba(255,158,21, 0.8);
 }
 .marker-cluster-custom-yb1 .div{
   background-color: rgba(255,158,21, 1);
 }
 
 .marker-cluster-custom-yb2 {
-  background-color: rgba(255,239,0, 0.5);
+  background-color: rgba(255,239,0, 0.8);
 }
 .marker-cluster-custom-yb2 .div{
   background-color: rgba(255,239,0, 1);
