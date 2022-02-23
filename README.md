@@ -1,5 +1,8 @@
 # OpenStreetMap Practice
 
+- nodejs ~16.*
+- yarn ~1.22.*
+
 - react
 - react-leaflet
 - react-leaflet-markercluster
@@ -22,8 +25,8 @@ Also there area other pages form official react-leaflet documentation
 
 cp .env.example .env
 
-npm install
+yarn
 
-npm run dev
+yarn dev
 ```
 
