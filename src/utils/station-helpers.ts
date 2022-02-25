@@ -1,7 +1,7 @@
 import type { LatLng, AreaShortForm } from '@/utils/constant'
 import L from 'leaflet'
 
-import { AREA_MAP, CENTER_OF_TAIWAN } from '@/utils/constant'
+import { AREA_MAP } from '@/utils/constant'
 
 export const searchStationByName = (stations = [], queryString = '') => {
   queryString = queryString.trim()
