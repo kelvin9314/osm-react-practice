@@ -57,8 +57,6 @@ interface AreaMarkerByBikeType {
   stationAmount: number
 }
 
-const DEFAULT_ZOOM = 8
-
 const ZOOM_LEVEL_MAP = Object.freeze({
   wholeTaiwan: 8,
   markerShow: 11,
@@ -81,7 +79,7 @@ interface CustomStation extends StationDetail {
 function GetIcon(_iconUrl) {
   return L.icon({
     iconUrl: _iconUrl,
-    iconSize: [30, 30],
+    iconSize: [40, 40],
   })
 }
 
@@ -145,7 +143,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
     if (result?.length > 0) {
       updateDisplayStationYb1(draft => result)
     }
-  }, [stationYb1, stationYb2])
+  }, [stationYb1])
 
   React.useEffect(() => {
     const result = processingStationData(stationYb2)
@@ -331,7 +329,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
             </LayersControl.Overlay>
 
             {currentZoomLevel < ZOOM_LEVEL_MAP.markerShow && (
-              <LayersControl.Overlay checked name="Layer group with circles">
+              <LayersControl.Overlay checked name="Layer area city">
                 <LayerGroup>
                   {areaMarkerByBikeType?.map(areaObj => {
                     // const areaObj = AREA_MAP[key] as AreaConfigValue

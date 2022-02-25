@@ -1,4 +1,3 @@
-import L from 'leaflet'
 import * as R from 'ramda'
 
 export type LatLng = { lat: number; lng: number }
