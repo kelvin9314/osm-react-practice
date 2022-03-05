@@ -51,16 +51,16 @@
 
 
 .marker-cluster-custom-yb1 {
-  background-color: rgba(255,158,21, 0.8);
+  background-color: rgba(255,158,21, 0.5);
 }
-.marker-cluster-custom-yb1 .div{
+.marker-cluster-custom-yb1 .inner{
   background-color: rgba(255,158,21, 1);
 }
 
 .marker-cluster-custom-yb2 {
-  background-color: rgba(255,239,0, 0.8);
+  background-color: rgba(255,239,0, 0.5);
 }
-.marker-cluster-custom-yb2 .div{
+.marker-cluster-custom-yb2 .inner{
   background-color: rgba(255,239,0, 1);
 }
 
@@ -73,6 +73,7 @@
   line-height: 24px;
   color: #7F7F7F;
   font-weight: 600;
+  padding: 0.5em 1em;
 }
 
 .popupCustom .leaflet-popup-content p {margin: 2px;}
@@ -153,3 +154,7 @@ height: 80px
 .inner_eyb li i.Two_thirds{background:url("../images/75Bettery.svg") no-repeat 4px center; background-size: 20px}
 .inner_eyb li i.One_third{background:url("../images/50Bettery.svg") no-repeat 4px center; background-size: 20px}
 .inner_eyb li i.zero{background:url("../images/25Bettery.svg") no-repeat 4px center; background-size: 20px}
+
+@media (max-width: 62.5rem) {
+  .station-map-container .osm{height: 140vw;}
+}

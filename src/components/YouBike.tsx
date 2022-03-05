@@ -76,10 +76,10 @@ interface CustomStation extends StationDetail {
   areaName: string
 }
 
-function GetIcon(_iconUrl) {
+function GetIcon(_iconUrl: string, _iconSize?: [number, number]) {
   return L.icon({
     iconUrl: _iconUrl,
-    iconSize: [40, 40],
+    iconSize: _iconSize || [30, 30],
   })
 }
 
@@ -170,6 +170,8 @@ const YouBikeMap = (props: YouBikeMapProps) => {
 
   React.useEffect(() => {
     if (!map) return
+
+    map.invalidateSize()
 
     map.on('zoomend', function () {
       setCurrentZoomLevel(prev => map.getZoom())
@@ -296,7 +298,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                   iconCreateFunction={cluster => {
                     return new L.DivIcon({
                       className: 'marker-cluster marker-cluster-custom-yb1',
-                      html: `<div><span>${cluster.getChildCount()}</span></div>`,
+                      html: `<div class="inner" ><span>${cluster.getChildCount()}</span></div>`,
                       iconSize: new L.Point(40, 40),
                     })
                   }}
@@ -318,7 +320,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                   iconCreateFunction={cluster => {
                     return new L.DivIcon({
                       className: 'marker-cluster marker-cluster-custom-yb2',
-                      html: `<div><span>${cluster.getChildCount()}</span></div>`,
+                      html: `<div class="inner" ><span>${cluster.getChildCount()}</span></div>`,
                       iconSize: new L.Point(40, 40),
                     })
                   }}
