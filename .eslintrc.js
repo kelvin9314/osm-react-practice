@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     'jest/globals': true,
   },
-  extends: ['plugin:react/recommended', 'standard', 'plugin:prettier/recommended', 'plugin:jest/recommended'],
+  extends: ['standard', 'plugin:prettier/recommended', 'plugin:jest/recommended'],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
@@ -22,7 +22,7 @@ module.exports = {
       version: 'detect', // React version. "detect" automatically picks the version you have installed.
     },
   },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
+  plugins: ['react-hooks', '@typescript-eslint'],
   rules: {
     'no-unused-vars': 'off',
     'react/prop-types': 0,
