@@ -25,8 +25,8 @@ Also there area other pages form official react-leaflet documentation
 
 cp .env.example .env
 
-yarn
+pnpm install
 
-yarn dev
+pnpm run dev
 ```
 
