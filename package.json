@@ -83,7 +83,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-react": "^7.30.1",
-    "gh-pages": "^3.2.3",
+    "gh-pages": "^4.0.0",
     "prettier": "^2.5.1",
     "react-app-rewired": "^2.2.1"
   }
