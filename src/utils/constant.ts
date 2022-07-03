@@ -18,6 +18,7 @@ export const AREA_MAP: AreaMap = Object.freeze({
   taipei: { position: { lat: 25.047924, lng: 121.517081 }, areaCode: '00', name: '臺北市' },
   ntpc: { position: { lat: 25.021539, lng: 121.456809 }, areaCode: '05', name: '新北市' },
   tycg: { position: { lat: 24.95367, lng: 121.225783 }, areaCode: '07', name: '桃園市' },
+  hsinchu: { areaCode: '0B', name: '新竹縣', position: { lat: 24.827252718355133, lng: 121.0133551467252 } },
   hccg: { position: { lat: 24.801815, lng: 120.971459 }, areaCode: '09', name: '新竹市' },
   sipa: { position: { lat: 24.78183, lng: 121.005074 }, areaCode: '10', name: '新竹科學園區' },
   miaoli: { position: { lat: 24.564859, lng: 120.81855 }, areaCode: '0A', name: '苗栗縣' },
