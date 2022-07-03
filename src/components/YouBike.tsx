@@ -129,7 +129,7 @@ const YouBikeMap = (props: YouBikeMapProps) => {
       return {
         ...s,
         markerIcon: getStationMarkerIcon(s),
-        areaName: area.name,
+        areaName: area?.name || '',
       }
     }
 
