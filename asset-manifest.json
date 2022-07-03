@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/osm-react-practice/static/css/main.5436a278.css",
-    "main.js": "/osm-react-practice/static/js/main.c9268a9a.js",
-    "static/js/787.2535ff6d.chunk.js": "/osm-react-practice/static/js/787.2535ff6d.chunk.js",
+    "main.css": "/osm-react-practice/static/css/main.02816417.css",
+    "main.js": "/osm-react-practice/static/js/main.295b4cc2.js",
+    "static/js/757.b63edaa3.chunk.js": "/osm-react-practice/static/js/757.b63edaa3.chunk.js",
     "static/media/close_eybinner.svg": "/osm-react-practice/static/media/close_eybinner.ed13e2b08fed6bb8db21.svg",
     "static/media/open_eybinner.svg": "/osm-react-practice/static/media/open_eybinner.54a68f5a39481c75daaa.svg",
     "index.html": "/osm-react-practice/index.html",
@@ -11,12 +11,12 @@
     "static/media/75Bettery.svg": "/osm-react-practice/static/media/75Bettery.83d01eabc52af0eb1e93.svg",
     "static/media/50Bettery.svg": "/osm-react-practice/static/media/50Bettery.18342475d9bb43637087.svg",
     "static/media/25Bettery.svg": "/osm-react-practice/static/media/25Bettery.f8a17566f1531147187c.svg",
-    "main.5436a278.css.map": "/osm-react-practice/static/css/main.5436a278.css.map",
-    "main.c9268a9a.js.map": "/osm-react-practice/static/js/main.c9268a9a.js.map",
-    "787.2535ff6d.chunk.js.map": "/osm-react-practice/static/js/787.2535ff6d.chunk.js.map"
+    "main.02816417.css.map": "/osm-react-practice/static/css/main.02816417.css.map",
+    "main.295b4cc2.js.map": "/osm-react-practice/static/js/main.295b4cc2.js.map",
+    "757.b63edaa3.chunk.js.map": "/osm-react-practice/static/js/757.b63edaa3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5436a278.css",
-    "static/js/main.c9268a9a.js"
+    "static/css/main.02816417.css",
+    "static/js/main.295b4cc2.js"
   ]
 }
