@@ -14,7 +14,7 @@ import FormLabel from '@mui/material/FormLabel'
 type BikeType = 1 | 2
 
 const OsmYouBike = () => {
-  const [selectedBikeType, setSelectedBikeType] = React.useState<BikeType>(1)
+  const [selectedBikeType, setSelectedBikeType] = React.useState<BikeType>(2)
 
   // React.useEffect(() => {
   //   console.log(`selectedBikeType: ${selectedBikeType}`)
