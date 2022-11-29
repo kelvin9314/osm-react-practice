@@ -37,7 +37,19 @@
       rel="stylesheet"
       href="https://unpkg.com/react-leaflet-markercluster/dist/styles.min.css"
     />
-    <title>OSM Practice, YouBike Taiwan station Station</title>
+    <title>OSM Practice, YouBike Taiwan Station</title>
+
+    <script async src='https://www.googletagmanager.com/gtag/js?id=%REACT_APP_GA4_TRACKING_ID%' ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '%REACT_APP_GA4_TRACKING_ID%', {
+        page_path: window.location.pathname,
+      });
+    </script>
+
   </head>
   <body>
     <noscript>OpenStreetMap Practice</noscript>
