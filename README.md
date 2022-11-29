@@ -1,7 +1,7 @@
 # OpenStreetMap Practice
 
-- nodejs ~16.*
-- yarn ~1.22.*
+- nodejs ~18.*
+- pnpm ~7.*
 
 - react
 - react-leaflet

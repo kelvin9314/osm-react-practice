@@ -356,11 +356,19 @@ const YouBikeMap = (props: YouBikeMapProps) => {
                           <Tooltip
                             className="map-point-f2e-edit-osm"
                             permanent={true}
-                            interactive={true}
+                            // interactive={true}
                             direction={getTooltipDirection(areaObj.shortForm)}
                             offset={calculateTooltipOffset(areaObj)}
+                            // eventHandlers={{
+                            //   click: e => {console.log('click')},
+                            //   dblclick: e => {console.log('dblclick')},
+                            //   mousedown: e => {console.log('mousedown')},
+                            //   mouseup: e => {console.log('mouseup')},
+                            //   mouseover: e => {console.log('mouseover')},
+                            //   mouseout: e => {console.log('mouseout')},
+                            // }}
                           >
-                            <div className="area-text">
+                            <div className="area-text" onClick={() => console.log(999)}>
                               {areaObj.name} <br />
                               {areaObj.stationAmount} 站
                             </div>
@@ -489,6 +497,7 @@ const InfoWindowPopup = (props: InfoWindowPopupProps) => {
         if (onCloseFn) onCloseFn()
       }}
     >
+      <p>{AREA_NAME_BY_ID[station.area_code]?.name}</p>
       <p>租賃站點查詢 :{station?.name_tw || ''}</p>
       <p>站點位置 : {station?.address_tw || ''}</p>
       {station.status === 2 || (station.empty_spaces === 0 && station.available_spaces === 0) ? (

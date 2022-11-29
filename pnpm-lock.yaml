@@ -37,7 +37,7 @@ specifiers:
   react: ^18.2.0
   react-app-rewired: ^2.2.1
   react-dom: ^18.2.0
-  react-leaflet: ^4.2.0
+  react-leaflet: ^3.2.5
   react-leaflet-fullscreen: ^2.0.2
   react-leaflet-markercluster: ^3.0.0-rc1
   react-router-dom: ^6.4.3
@@ -63,9 +63,9 @@ dependencies:
   ramda: 0.28.0
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-leaflet: 4.2.0_yydtlhsdonbqao6vgvkwhv2zki
-  react-leaflet-fullscreen: 2.0.2_ty7ki424t7c4kmz5t6ihqdtzye
-  react-leaflet-markercluster: 3.0.0-rc1_ty7ki424t7c4kmz5t6ihqdtzye
+  react-leaflet: 3.2.5_yydtlhsdonbqao6vgvkwhv2zki
+  react-leaflet-fullscreen: 2.0.2_nqznkfuhhsuatbwfcg2tou3424
+  react-leaflet-markercluster: 3.0.0-rc1_nqznkfuhhsuatbwfcg2tou3424
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
   react-scripts: 5.0.1_eetduzquwu67aqoq5644t6dxzu
   swr: 1.3.0_react@18.2.0
@@ -8174,21 +8174,21 @@ packages:
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
 
-  /react-leaflet-fullscreen/2.0.2_ty7ki424t7c4kmz5t6ihqdtzye:
+  /react-leaflet-fullscreen/2.0.2_nqznkfuhhsuatbwfcg2tou3424:
     resolution: {integrity: sha512-W2h2iLYulwvSx5eYRpB8hamDYoaD37bTU0ahQppV/+Cwrzx8xKk1E5Kc6WCpqy5tBi4/sZQvg2zaRr5p+leXSg==}
     peerDependencies:
       react-leaflet: ^3.x
     dependencies:
       '@react-leaflet/core': 1.1.1_yydtlhsdonbqao6vgvkwhv2zki
       leaflet.fullscreen: 1.6.0
-      react-leaflet: 4.2.0_yydtlhsdonbqao6vgvkwhv2zki
+      react-leaflet: 3.2.5_yydtlhsdonbqao6vgvkwhv2zki
     transitivePeerDependencies:
       - leaflet
       - react
       - react-dom
     dev: false
 
-  /react-leaflet-markercluster/3.0.0-rc1_ty7ki424t7c4kmz5t6ihqdtzye:
+  /react-leaflet-markercluster/3.0.0-rc1_nqznkfuhhsuatbwfcg2tou3424:
     resolution: {integrity: sha512-wr8ERtx73sY0uVoQAM1v1vsA5Vsbdgyqc88h+Eo2kYRwNdkVTEOoUTnAh3CgGuOyP0Y9QLd2dKGupGkufpwryQ==}
     peerDependencies:
       leaflet: ^1.6.0
@@ -8197,20 +8197,20 @@ packages:
       '@react-leaflet/core': 1.1.1_yydtlhsdonbqao6vgvkwhv2zki
       leaflet: 1.9.3
       leaflet.markercluster: 1.5.3_leaflet@1.9.3
-      react-leaflet: 4.2.0_yydtlhsdonbqao6vgvkwhv2zki
+      react-leaflet: 3.2.5_yydtlhsdonbqao6vgvkwhv2zki
     transitivePeerDependencies:
       - react
       - react-dom
     dev: false
 
-  /react-leaflet/4.2.0_yydtlhsdonbqao6vgvkwhv2zki:
-    resolution: {integrity: sha512-9d8T7hzYrQA5GLe3vn0qtRLJzQKgjr080NKa45yArGwuSl1nH/6aK9gp7DeYdktpdO1vKGSUTGW5AsUS064X0A==}
+  /react-leaflet/3.2.5_yydtlhsdonbqao6vgvkwhv2zki:
+    resolution: {integrity: sha512-Z3KZ+4SijsRbbrt2I1a3ZDY6+V6Pm91eYTdxTN18G6IOkFRsJo1BuSPLFnyFrlF3WDjQFPEcTPkEgD1VEeAoBg==}
     peerDependencies:
-      leaflet: ^1.9.0
-      react: ^18.0.0
-      react-dom: ^18.0.0
+      leaflet: ^1.7.1
+      react: ^17.0.1
+      react-dom: ^17.0.1
     dependencies:
-      '@react-leaflet/core': 2.1.0_yydtlhsdonbqao6vgvkwhv2zki
+      '@react-leaflet/core': 1.1.1_yydtlhsdonbqao6vgvkwhv2zki
       leaflet: 1.9.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0

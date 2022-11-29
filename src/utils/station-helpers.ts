@@ -39,6 +39,7 @@ export function getTooltipDirection(shortForm: AreaShortForm): L.Direction {
     ntpc: 'top',
     tycg: 'top',
     hccg: 'left',
+    hsinchu: 'right',
     sipa: 'right',
     miaoli: 'left',
     i: 'right',
@@ -78,6 +79,7 @@ export function calculateTooltipOffset(areaObj): L.PointExpression {
   if (areaObj.areaCode === AREA_MAP.tycg.areaCode) return [-30, 0]
 
   if (areaObj.areaCode === AREA_MAP.hccg.areaCode) return [20, 0]
+  if (areaObj.areaCode === AREA_MAP.hsinchu.areaCode) return [-20, -40]
   if (areaObj.areaCode === AREA_MAP.sipa.areaCode) return offsetSolution.goRightBottom
 
   if (areaObj.areaCode === AREA_MAP.miaoli.areaCode) return offsetSolution.goLeftBottom

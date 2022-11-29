@@ -26,7 +26,7 @@
     "ramda": "^0.28.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-leaflet": "^4.2.0",
+    "react-leaflet": "^3.2.5",
     "react-leaflet-fullscreen": "^2.0.2",
     "react-leaflet-markercluster": "^3.0.0-rc1",
     "react-router-dom": "^6.4.3",

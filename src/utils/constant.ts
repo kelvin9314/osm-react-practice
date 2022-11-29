@@ -1,9 +1,8 @@
 import * as R from 'ramda'
 
 export type LatLng = { lat: number; lng: number }
-export type AreaCode = '00' | '01' | '05' | '07' | '08' | '09' | '10' | '0A' | '12'
-export type AreaShortForm = 'taipei' | 'ntpc' | 'tycg' | 'hccg' | 'sipa' | 'miaoli' | 'i' | 'chiayi' | 'kcg'
-
+export type AreaCode = '00' | '01' | '05' | '07' | '0B' | '08' | '09' | '10' | '0A' | '12'
+export type AreaShortForm = 'taipei' | 'ntpc' | 'tycg' | 'hsinchu' | 'hccg' | 'sipa' | 'miaoli' | 'i' | 'chiayi' | 'kcg'
 export interface AreaConfigValue {
   areaCode: AreaCode
   name: string
